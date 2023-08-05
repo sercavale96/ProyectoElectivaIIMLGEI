@@ -134,6 +134,7 @@ def main():
             #    st.success(prediction_descriptions[prediction[0]])
             #elif prediction[0] == 1:
             #    st.error(prediction_descriptions[prediction[0]])
+            
             prediction = int(prediction)
             if prediction == 0:
                 st.success(prediction_descriptions[prediction])
