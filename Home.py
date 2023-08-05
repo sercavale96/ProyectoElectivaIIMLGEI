@@ -110,8 +110,8 @@ def main():
             st.pyplot(fig)
             st.write("")
     elif option == "Predicciones":
-        with open ('Models/modelo.pkl' , 'rb') as m: # En modo lectura
-            modelo = pickle.load(m)
+        #with open ('Models/modelo.pkl' , 'rb') as m: # En modo lectura
+         #   modelo = pickle.load(m)
         st.subheader("¡Predicciones ML! 🤖")
         st.markdown("<hr style='margin-top: 2px; margin-bottom: 15px;'>", unsafe_allow_html=True)
         st.write("Por favor ingrese los valores de las características del paciente: ")  
@@ -134,7 +134,7 @@ def main():
             #    st.success(prediction_descriptions[prediction[0]])
             #elif prediction[0] == 1:
             #    st.error(prediction_descriptions[prediction[0]])
-            
+
             prediction = int(prediction)
             if prediction == 0:
                 st.success(prediction_descriptions[prediction])
