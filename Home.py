@@ -25,7 +25,8 @@ def user_input_parameters(c):
 
 def solicitud_API(muestra:list):
     #urlApi = 'http://127.0.0.1:8000/predict'
-    urlApi = 'http://20.119.8.46:8000/predict'
+    urlApi = 'https://20.119.8.46:8000/predict'
+
     data = {
         "data": muestra
     }
