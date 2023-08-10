@@ -25,8 +25,9 @@ def user_input_parameters(c):
 
 def solicitud_API(muestra:list):
     #urlApi = 'http://127.0.0.1:8000/predict'
-    urlApi = 'https://20.119.16.44:8000/predict'
-
+    #urlApi = 'https://20.119.16.44:8000/predict'
+    urlApi = 'https://apiml2gei2023.azurewebsites.net/predict'
+    
     data = {
         "data": muestra
     }
