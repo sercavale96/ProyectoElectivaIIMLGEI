@@ -25,9 +25,8 @@ def user_input_parameters(c):
 
 def solicitud_API(muestra:list):
     #urlApi = 'http://127.0.0.1:8000/predict'
-    #urlApi = 'https://20.119.16.44:8000/predict'
     urlApi = 'https://apiml2gei2023.azurewebsites.net/predict'
-    
+
     data = {
         "data": muestra
     }
@@ -37,7 +36,7 @@ def solicitud_API(muestra:list):
         prediction = result["prediction"]
         return prediction
     else:
-        return none
+        return None
 
 def main():
     folder = 'data'
@@ -51,7 +50,6 @@ def main():
 
     # Barra lateral a la izquierda
     st.write("# ¡Bienvenido al Clasificador Cardiopático! 💉🩺🏨")
-    #st.info("Bienvenido al Clasificador cardiopático. ¿Puedes mejorar?")
     st.sidebar.title("🎯 Sistema de Predicción")
     option = st.sidebar.selectbox("Seleccionar Opción", ["Home", "Modelo de Negocio","Descriptiva", "Predicciones"])
     
@@ -78,7 +76,7 @@ def main():
             """)
     elif option == "Modelo de Negocio":
          # Incrustar una imagen desde el sistema local
-        st.image("Images/ML II.png", caption="Canvas Machine Learning")
+        st.image("Images/ML II.png", caption="Canvas Machine Learning - Sergio Alejandro Cañón Valencia")
     elif option == "Descriptiva":
         st.write("¡Top 5!")
         st.dataframe(d.head())
@@ -112,36 +110,29 @@ def main():
             st.pyplot(fig)
             st.write("")
     elif option == "Predicciones":
-        #with open ('Models/modelo.pkl' , 'rb') as m: # En modo lectura
-         #   modelo = pickle.load(m)
         st.subheader("¡Predicciones ML! 🤖")
         st.markdown("<hr style='margin-top: 2px; margin-bottom: 15px;'>", unsafe_allow_html=True)
         st.write("Por favor ingrese los valores de las características del paciente: ")  
         ContenedorDataFrame = user_input_parameters(caracteristicas)
         if st.button("Predecir"):
-            # Convertir el diccionario ContenedorDataFrame en una matriz NumPy
-            input_data = np.array(list(ContenedorDataFrame.values()))
-            # Convertir el array 1D en una matriz 2D
-            input_data_2d = input_data.reshape(1, -1)
-            # Realizar la predicción
-            #prediction = modelo.predict(input_data_2d)
-            prediction = solicitud_API(list(ContenedorDataFrame.values()))
-            # Crear un diccionario para asociar las predicciones
-            prediction_descriptions = {
-                0: '✅ Negativo: Enfermedad cardíaca ausente, sin embargo es recomendable realizar chequeos regulares.',
-                1: '❌ Positivo: Enfermedad cardíaca presente, por favor consultar con un especialista.'
-            }
-            
-            #if prediction[0] == 0:
-            #    st.success(prediction_descriptions[prediction[0]])
-            #elif prediction[0] == 1:
-            #    st.error(prediction_descriptions[prediction[0]])
-
-            prediction = int(prediction)
-            if prediction == 0:
-                st.success(prediction_descriptions[prediction])
-            elif prediction == 1:
-                st.error(prediction_descriptions[prediction])
+            try:
+                if all(value is not None for value in ContenedorDataFrame.values()):
+                    input_data = np.array(list(ContenedorDataFrame.values()))
+                    input_data_2d = input_data.reshape(1, -1)
+                    prediction = solicitud_API(list(ContenedorDataFrame.values()))
+                    prediction_descriptions = {
+                        0: '✅ Negativo: Enfermedad cardíaca ausente, sin embargo es recomendable realizar chequeos regulares.',
+                        1: '❌ Positivo: Enfermedad cardíaca presente, por favor consultar con un especialista.'
+                    }
+                    prediction = int(prediction)
+                    if prediction == 0:
+                        st.success(prediction_descriptions[prediction])
+                    elif prediction == 1:
+                        st.error(prediction_descriptions[prediction])
+                else:
+                    st.warning("Por favor ingrese todos los valores de características para realizar la predicción.")
+            except Exception as e:
+                st.error("Ocurrió un error al realizar la predicción (valores faltantes): " + str(e))
 
 if __name__ == "__main__":
     main()
